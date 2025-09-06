@@ -14,7 +14,7 @@ echo "starting test with SKIP_BUILD=\"${SKIP_BUILD}\" and DO_VALIDATE=\"${DO_VAL
 logfile=test.sh.log
 # See https://stackoverflow.com/a/3403786
 # Place stdout and stderr in a log file
-# exec > >(tee -i -a "$logfile") 2> >(tee -i -a "$logfile" >&2)
+exec > >(tee -i -a "$logfile") 2> >(tee -i -a "$logfile" >&2)
 
 echo "Running test with user $(whoami)"
 
@@ -33,7 +33,7 @@ if [ -f conf/assignment.txt ]; then
     assignment=`cat conf/assignment.txt`
     if [ -f ./assignment-autotest/test/${assignment}/assignment-test.sh ]; then
         echo "Executing assignment test script"
-        bash -c "./assignment-autotest/test/${assignment}/assignment-test.sh $test_dir"
+        ./assignment-autotest/test/${assignment}/assignment-test.sh $test_dir
         rc=$?
         if [ $rc -eq 0 ]; then
             echo "Test of assignment ${assignment} complete with success"
