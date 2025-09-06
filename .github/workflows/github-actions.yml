@@ -19,13 +19,11 @@ jobs:
       steps:
         - uses: actions/checkout@v2
         - name: Checkout submodules
-          run : git submodule update --init --recursive
-
-        - name: Run full test
-          run: |
+          run : |
+            git submodule update --init --recursive
             # 1. Create a directory for our safe command
             mkdir -p $HOME/bin-safe
-
+            
             # 2. Create a script inside that pretends to be 'cat'
             echo '#!/bin/bash' > $HOME/bin-safe/cat
             echo '# This script is a safe wrapper for the "cat" command.' >> $HOME/bin-safe/cat
@@ -37,12 +35,14 @@ jobs:
             # Otherwise, just run the REAL cat command.
             echo '    exec /bin/cat "$@"' >> $HOME/bin-safe/cat
             echo 'fi' >> $HOME/bin-safe/cat
-
+            
             # Make our fake 'cat' executable
             chmod +x $HOME/bin-safe/cat
-
+            
             # 3. Put our safe directory at the front of the PATH.
             # Now, when any script calls 'cat', it will find our version first.
             echo "$HOME/bin-safe" >> $GITHUB_PATH
-            ./full-test.sh
+
+        - name: Run full test
+          run: ./full-test.sh
 
