@@ -20,8 +20,10 @@ jobs:
           - uses: actions/checkout@v2
           - name: Checkout submodules
             run : git submodule update --init --recursive
-          - name: Run full test
-            run: ./full-test.sh
+          - name: Install strace
+            run: sudo apt-get update && sudo apt-get install -y strace
+          - name: Run full test with strace
+            run: strace -f ./full-test.sh
     debug-finder-test:
       runs-on: ubuntu-latest
       steps:
