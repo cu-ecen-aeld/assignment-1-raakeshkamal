@@ -22,3 +22,21 @@ jobs:
             run : git submodule update --init --recursive
           - name: Run full test
             run: ./full-test.sh
+    debug-finder-test:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            submodules: 'recursive' # Ensures submodules are checked out
+
+        - name: Create dummy conf files
+          run: |
+            mkdir -p conf
+            echo "assignment1" > conf/assignment.txt
+            echo "testuser" > conf/username.txt
+            # Also need the parent conf file for the script to work
+            mkdir -p ../conf
+            cp conf/assignment.txt ../conf/assignment.txt
+
+        - name: Run finder-test.sh directly
+          run: ./finder-test.sh
