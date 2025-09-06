@@ -39,4 +39,6 @@ jobs:
             cp conf/assignment.txt ../conf/assignment.txt
 
         - name: Run finder-test.sh directly
-          run: ./finder-app/finder-test.sh
+          run: |
+            cd finder-app
+            ./finder-test.sh
